@@ -17,4 +17,24 @@ export class ArmorController {
       });
     }
   }
+  async getOneArmor(request: Request, response: Response) {
+    const { id } = request.params;
+    const armorRepository = new ArmorRepository();
+    const armorService = new ArmorService(armorRepository);
+
+    if (!id) {
+      return response.status(404).json({
+        message: "ID param is required",
+      });
+    }
+    try {
+      const data = await armorService.getOneArmor(id);
+
+      return response.status(200).json(data);
+    } catch (error) {
+      return response.status(500).json({
+        message: "Internal server error",
+      });
+    }
+  }
 }

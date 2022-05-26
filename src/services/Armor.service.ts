@@ -8,4 +8,9 @@ export class ArmorService {
 
     return armors;
   }
+  async getOneArmor(id: string) {
+    const response = await this.armorService.getOne(id);
+
+    return response;
+  }
 }

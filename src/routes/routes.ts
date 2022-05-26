@@ -10,6 +10,8 @@ router.get("/", (request, response) => {
     name: "Whyy",
   });
 });
+
 router.get("/armors", armorController.getALl);
+router.get("/armors/:id", armorController.getOneArmor);
 
 export { router };

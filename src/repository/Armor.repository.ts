@@ -23,8 +23,10 @@ export class ArmorRepository {
     });
 
     if (response.length <= 0) {
+      console.log("entro");
       const { resources }: ICloudinaryProps = await clientCloudinary.search
         .expression("folder:armor")
+        .max_results(132)
         .execute();
 
       for (let image of resources) {
@@ -38,10 +40,17 @@ export class ArmorRepository {
           },
         });
       }
-
       return resources;
     }
+    return response;
+  }
 
+  async getOne(id: string) {
+    const response = await prisma.armors.findFirst({
+      where: {
+        id,
+      },
+    });
     return response;
   }
 }

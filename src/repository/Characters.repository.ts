@@ -2,7 +2,7 @@ import { clientCloudinary } from "../configs/cloudnary";
 import { ICloudinaryProps } from "../interfaces/ICloudnary.Interface";
 import { prisma } from "../prisma/prisma";
 
-export class CharacterRepository {
+export class CharactersRepository {
   async getAll() {
     const characters = await prisma.character.findMany();
 

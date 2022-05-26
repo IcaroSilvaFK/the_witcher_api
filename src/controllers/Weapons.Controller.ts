@@ -8,8 +8,8 @@ export class WeaponsController {
     const weaponsService = new WeaponsService(weaponsRepository);
 
     try {
-      const weapons = weaponsService.getAll();
-
+      const weapons = await weaponsService.getAll();
+      console.log(weapons);
       return response.status(200).json(weapons);
     } catch (error) {
       return response.status(500).json({

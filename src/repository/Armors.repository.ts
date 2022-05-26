@@ -2,7 +2,7 @@ import { clientCloudinary } from "../configs/cloudnary";
 import { ICloudinaryProps } from "../interfaces/ICloudnary.Interface";
 import { prisma } from "../prisma/prisma";
 
-export class ArmorRepository {
+export class ArmorsRepository {
   async getAll() {
     const response = await prisma.armors.findMany({
       orderBy: {

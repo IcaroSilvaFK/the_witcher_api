@@ -1,7 +1,7 @@
-import { CharacterRepository } from "../repository/Character.repository";
+import { CharactersRepository } from "../repository/Characters.repository";
 
 export class CharacterService {
-  constructor(private readonly characterRepository: CharacterRepository) {}
+  constructor(private readonly characterRepository: CharactersRepository) {}
 
   async getAll() {
     const characters = await this.characterRepository.getAll();

@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { ArmorRepository } from "../repository/Armor.repository";
+import { ArmorsRepository } from "../repository/Armors.repository";
 import { ArmorService } from "../services/Armor.service";
 
-export class ArmorController {
+export class ArmorsController {
   async getALl(request: Request, response: Response) {
-    const armorRepository = new ArmorRepository();
+    const armorRepository = new ArmorsRepository();
     const armorService = new ArmorService(armorRepository);
 
     try {
@@ -19,7 +19,7 @@ export class ArmorController {
   }
   async getOneArmor(request: Request, response: Response) {
     const { id } = request.params;
-    const armorRepository = new ArmorRepository();
+    const armorRepository = new ArmorsRepository();
     const armorService = new ArmorService(armorRepository);
 
     if (!id) {

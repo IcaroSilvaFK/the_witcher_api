@@ -1,13 +1,13 @@
 import { Router } from "express";
-import { ArmorController } from "../controllers/Armor.controller";
-import { CharacterController } from "../controllers/Character.controller";
+import { ArmorsController } from "../controllers/Armors.controller";
+import { CharactersController } from "../controllers/Characters.controller";
 import { MonstersController } from "../controllers/Monster.controller";
 import { WeaponsController } from "../controllers/Weapons.Controller";
 
 const router = Router();
 
-const armorController = new ArmorController();
-const characterController = new CharacterController();
+const armorController = new ArmorsController();
+const characterController = new CharactersController();
 const monstersController = new MonstersController();
 const weaponsController = new WeaponsController();
 
@@ -22,15 +22,15 @@ router.get("/armors", armorController.getALl);
 router.get("/armors/:id", armorController.getOneArmor);
 
 // characters
-router.get("/character", characterController.getALl);
+router.get("/characters", characterController.getALl);
 router.get("/character/:id", characterController.getOneCharacter);
 
 // monsters
-router.get("/character", monstersController.getALl);
-router.get("/character/:id", monstersController.getOneMonster);
+router.get("/monsters", monstersController.getALl);
+router.get("/monsters/:id", monstersController.getOneMonster);
 
 //weapons
-router.get("/character", weaponsController.getALl);
-router.get("/character/:id", weaponsController.getOneWeapon);
+router.get("/weapons", weaponsController.getALl);
+router.get("/weapons/:id", weaponsController.getOneWeapon);
 
 export { router };

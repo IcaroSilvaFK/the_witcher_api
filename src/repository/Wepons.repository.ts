@@ -11,7 +11,6 @@ export class WeaponsRepository {
         .expression("folder:weapons")
         .max_results(70)
         .execute();
-
       for await (let weapon of resources) {
         await prisma.weapons.create({
           data: {

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { MonstersRepository } from "../repository/Monster.repository";
-import { MonstersService } from "../services/Monster.service";
+import { MonstersRepository } from "../repository/Monsters.repository";
+import { MonstersService } from "../services/Monsters.service";
 
 export class MonstersController {
   async getALl(request: Request, response: Response) {

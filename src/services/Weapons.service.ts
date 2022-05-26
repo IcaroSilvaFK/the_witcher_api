@@ -5,7 +5,6 @@ export class WeaponsService {
 
   async getAll() {
     const weapons = await this.weaponsRepository.getAll();
-
     return weapons;
   }
   async getOneWeapon(id: string) {

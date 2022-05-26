@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
-import { CharacterRepository } from "../repository/Character.repository";
+import { CharactersRepository } from "../repository/Characters.repository";
 import { CharacterService } from "../services/Character.service";
 
-export class CharacterController {
+export class CharactersController {
   async getALl(request: Request, response: Response) {
-    const characterRepository = new CharacterRepository();
+    const characterRepository = new CharactersRepository();
     const characterService = new CharacterService(characterRepository);
 
     try {
@@ -20,7 +20,7 @@ export class CharacterController {
 
   async getOneCharacter(request: Request, response: Response) {
     const { id } = request.params;
-    const characterRepository = new CharacterRepository();
+    const characterRepository = new CharactersRepository();
     const characterService = new CharacterService(characterRepository);
 
     if (!id) {

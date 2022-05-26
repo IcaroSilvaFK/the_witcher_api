@@ -1,0 +1,43 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Armors {
+  id String @id @default(uuid())
+  imageUrl String @map("image_url")
+  createdAt DateTime @default(now()) @map("created_at")
+  filename String
+  width Int
+  height Int
+  format String
+  @@map("armors")
+}
+
+model Character {
+  id String @id @default(uuid())
+  imageUrl String @map("image_url")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("characters")
+}
+model Monster {
+  id String @id @default(uuid())
+  imageUrl String @map("image_url")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("monsters")
+}
+
+model Weapons {
+  id String @id @default(uuid())
+  imageUrl String @map("image_url")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("weapons")
+}

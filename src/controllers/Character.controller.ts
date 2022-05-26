@@ -29,7 +29,7 @@ export class CharacterController {
       });
     }
     try {
-      const character = await characterService.getOne(id);
+      const character = await characterService.getOneCharacter(id);
 
       return response.status(200).json(character);
     } catch (error) {

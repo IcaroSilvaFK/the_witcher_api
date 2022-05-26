@@ -9,7 +9,7 @@ export class CharacterService {
     return characters;
   }
 
-  async getOne(id: string) {
+  async getOneCharacter(id: string) {
     const character = await this.characterRepository.getCharacter(id);
 
     return character;

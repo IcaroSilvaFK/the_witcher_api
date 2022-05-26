@@ -2,43 +2,38 @@ import { clientCloudinary } from "../configs/cloudnary";
 import { ICloudinaryProps } from "../interfaces/ICloudnary.Interface";
 import { prisma } from "../prisma/prisma";
 
-export class ArmorRepository {
+export class CharacterRepository {
   async getAll() {
-    const response = await prisma.armors.findMany({
-      orderBy: {
-        createdAt: "asc",
-      },
-    });
+    const characters = await prisma.character.findMany();
 
-    if (response.length <= 0) {
-      console.log("entro");
+    if (characters.length <= 0) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
-        .expression("folder:armor")
-        .max_results(132)
+        .expression("folder:character")
+        .max_results(50)
         .execute();
 
-      for (let image of resources) {
-        await prisma.armors.create({
+      for await (let image of resources) {
+        await prisma.character.create({
           data: {
             filename: image.filename,
             format: image.format,
             height: image.height,
-            width: image.width,
             imageUrl: image.secure_url,
+            width: image.width,
           },
         });
       }
       return resources;
     }
-    return response;
+    return characters;
   }
 
-  async getOne(id: string) {
-    const response = await prisma.armors.findFirst({
+  async getCharacter(id: string) {
+    const character = await prisma.character.findFirst({
       where: {
         id,
       },
     });
-    return response;
+    return character;
   }
 }

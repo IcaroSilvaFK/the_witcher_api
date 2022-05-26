@@ -23,14 +23,20 @@ model Character {
   id String @id @default(uuid())
   imageUrl String @map("image_url")
   createdAt DateTime @default(now()) @map("created_at")
-
+  filename String
+  width Int
+  height Int
+  format String
   @@map("characters")
 }
 model Monster {
   id String @id @default(uuid())
   imageUrl String @map("image_url")
   createdAt DateTime @default(now()) @map("created_at")
-
+  filename String
+  width Int
+  height Int
+  format String
   @@map("monsters")
 }
 
@@ -38,6 +44,9 @@ model Weapons {
   id String @id @default(uuid())
   imageUrl String @map("image_url")
   createdAt DateTime @default(now()) @map("created_at")
-
+  filename String
+  width Int
+  height Int
+  format String
   @@map("weapons")
 }

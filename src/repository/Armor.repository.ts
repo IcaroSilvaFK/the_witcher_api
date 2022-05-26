@@ -33,7 +33,7 @@ export class ArmorRepository {
     return response;
   }
 
-  async getOne(id: string) {
+  async getOneArmor(id: string) {
     const response = await prisma.armors.findFirst({
       where: {
         id,

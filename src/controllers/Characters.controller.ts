@@ -3,7 +3,7 @@ import { CharactersRepository } from "../repository/Characters.repository";
 import { CharacterService } from "../services/Character.service";
 
 export class CharactersController {
-  async getALl(request: Request, response: Response) {
+  static async getALl(request: Request, response: Response) {
     const characterRepository = new CharactersRepository();
     const characterService = new CharacterService(characterRepository);
 
@@ -18,7 +18,7 @@ export class CharactersController {
     }
   }
 
-  async getOneCharacter(request: Request, response: Response) {
+  static async getOneCharacter(request: Request, response: Response) {
     const { id } = request.params;
     const characterRepository = new CharactersRepository();
     const characterService = new CharacterService(characterRepository);

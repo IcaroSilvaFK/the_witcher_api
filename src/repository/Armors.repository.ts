@@ -4,14 +4,13 @@ import { prisma } from "../prisma/prisma";
 
 export class ArmorsRepository {
   async getAll() {
-    const response = await prisma.armors.findMany({
+    const armorsExists = await prisma.armors.findMany({
       orderBy: {
         createdAt: "asc",
       },
     });
 
-    if (response.length <= 0) {
-      console.log("entro");
+    if (armorsExists.length <= 0) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
         .expression("folder:armor")
         .max_results(132)
@@ -28,17 +27,26 @@ export class ArmorsRepository {
           },
         });
       }
-      return resources;
+    } else {
+      return armorsExists;
     }
-    return response;
+    const armors = await prisma.armors.findMany();
+
+    return armors;
   }
 
   async getOneArmor(id: string) {
-    const response = await prisma.armors.findFirst({
+    const armor = await prisma.armors.findFirst({
       where: {
         id,
       },
     });
-    return response;
+    return armor;
+  }
+  async getPagination(page: number) {
+    const amors = await prisma.armors.findMany({
+      take: 1,
+      skip: 0,
+    });
   }
 }

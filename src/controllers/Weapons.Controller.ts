@@ -3,13 +3,12 @@ import { WeaponsRepository } from "../repository/Wepons.repository";
 import { WeaponsService } from "../services/Weapons.service";
 
 export class WeaponsController {
-  async getALl(request: Request, response: Response) {
+  static async getALl(request: Request, response: Response) {
     const weaponsRepository = new WeaponsRepository();
     const weaponsService = new WeaponsService(weaponsRepository);
 
     try {
       const weapons = await weaponsService.getAll();
-      console.log(weapons);
       return response.status(200).json(weapons);
     } catch (error) {
       return response.status(500).json({
@@ -17,7 +16,7 @@ export class WeaponsController {
       });
     }
   }
-  async getOneWeapon(request: Request, response: Response) {
+  static async getOneWeapon(request: Request, response: Response) {
     const { id } = request.params;
     const weaponsRepository = new WeaponsRepository();
     const weaponsService = new WeaponsService(weaponsRepository);

@@ -4,9 +4,9 @@ import { prisma } from "../prisma/prisma";
 
 export class CharactersRepository {
   async getAll() {
-    const characters = await prisma.character.findMany();
+    const charactersExists = await prisma.character.findMany();
 
-    if (characters.length <= 0) {
+    if (charactersExists.length <= 0) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
         .expression("folder:character")
         .max_results(50)
@@ -23,8 +23,10 @@ export class CharactersRepository {
           },
         });
       }
-      return resources;
+    } else {
+      return charactersExists;
     }
+    const characters = await prisma.character.findMany();
     return characters;
   }
 

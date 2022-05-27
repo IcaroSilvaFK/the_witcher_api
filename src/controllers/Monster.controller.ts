@@ -3,7 +3,7 @@ import { MonstersRepository } from "../repository/Monsters.repository";
 import { MonstersService } from "../services/Monsters.service";
 
 export class MonstersController {
-  async getALl(request: Request, response: Response) {
+  static async getALl(request: Request, response: Response) {
     const monstersReposioty = new MonstersRepository();
     const monstersService = new MonstersService(monstersReposioty);
 
@@ -18,7 +18,7 @@ export class MonstersController {
     }
   }
 
-  async getOneMonster(request: Request, response: Response) {
+  static async getOneMonster(request: Request, response: Response) {
     const { id } = request.params;
     const monstersReposioty = new MonstersRepository();
     const monstersService = new MonstersService(monstersReposioty);

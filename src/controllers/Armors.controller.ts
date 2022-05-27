@@ -3,7 +3,7 @@ import { ArmorsRepository } from "../repository/Armors.repository";
 import { ArmorService } from "../services/Armor.service";
 
 export class ArmorsController {
-  async getALl(request: Request, response: Response) {
+  static async getALl(request: Request, response: Response) {
     const armorRepository = new ArmorsRepository();
     const armorService = new ArmorService(armorRepository);
 
@@ -17,7 +17,7 @@ export class ArmorsController {
       });
     }
   }
-  async getOneArmor(request: Request, response: Response) {
+  static async getOneArmor(request: Request, response: Response) {
     const { id } = request.params;
     const armorRepository = new ArmorsRepository();
     const armorService = new ArmorService(armorRepository);

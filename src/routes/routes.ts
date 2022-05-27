@@ -6,11 +6,6 @@ import { WeaponsController } from "../controllers/Weapons.Controller";
 
 const router = Router();
 
-const armorController = new ArmorsController();
-const characterController = new CharactersController();
-const monstersController = new MonstersController();
-const weaponsController = new WeaponsController();
-
 router.get("/", (request, response) => {
   response.status(200).json({
     name: "Whyy",
@@ -18,19 +13,23 @@ router.get("/", (request, response) => {
 });
 
 // armors
-router.get("/armors", armorController.getALl);
-router.get("/armors/:id", armorController.getOneArmor);
+router.get("/armors", ArmorsController.getALl);
+router.get("/armors/:id", ArmorsController.getOneArmor);
+//router.get("/armors/:page");
 
 // characters
-router.get("/characters", characterController.getALl);
-router.get("/character/:id", characterController.getOneCharacter);
+router.get("/characters", CharactersController.getALl);
+router.get("/characters/:id", CharactersController.getOneCharacter);
+// router.get("/characters/:page")
 
 // monsters
-router.get("/monsters", monstersController.getALl);
-router.get("/monsters/:id", monstersController.getOneMonster);
+router.get("/monsters", MonstersController.getALl);
+router.get("/monsters/:id", MonstersController.getOneMonster);
+//router.get("/monsters/:page")
 
 //weapons
-router.get("/weapons", weaponsController.getALl);
-router.get("/weapons/:id", weaponsController.getOneWeapon);
+router.get("/weapons", WeaponsController.getALl);
+router.get("/weapons/:id", WeaponsController.getOneWeapon);
+// router.get("/monsters/:page")
 
 export { router };

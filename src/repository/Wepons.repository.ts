@@ -4,9 +4,9 @@ import { prisma } from "../prisma/prisma";
 
 export class WeaponsRepository {
   async getAll() {
-    const weapons = await prisma.weapons.findMany();
+    const weaponsExists = await prisma.weapons.findMany();
 
-    if (weapons.length <= 0) {
+    if (weaponsExists.length <= 0) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
         .expression("folder:weapons")
         .max_results(70)
@@ -22,8 +22,11 @@ export class WeaponsRepository {
           },
         });
       }
-      return resources;
+    } else {
+      return weaponsExists;
     }
+    const weapons = await prisma.weapons.findMany();
+
     return weapons;
   }
   async getOneWeapon(id: string) {

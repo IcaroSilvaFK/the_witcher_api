@@ -6,9 +6,10 @@ import { WeaponsController } from "../controllers/Weapons.Controller";
 
 const router = Router();
 
-router.get("/", (request, response) => {
+router.get("/", (_, response) => {
   response.status(200).json({
-    name: "Whyy",
+    nickName: "Whyy",
+    author: "Icaro Vieira",
   });
 });
 

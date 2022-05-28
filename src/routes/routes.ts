@@ -9,7 +9,7 @@ const router = Router();
 
 router.get("/", (_, response) => {
   response.status(200).json({
-    nickName: "Whyy",
+    nick_name: "Whyy",
     author: "Icaro Vieira",
   });
 });

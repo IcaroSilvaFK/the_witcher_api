@@ -44,9 +44,20 @@ export class ArmorsRepository {
     return armor;
   }
   async getPagination(page: number) {
-    const amors = await prisma.armors.findMany({
-      take: 1,
-      skip: 0,
+    const quantityPages = 20;
+    const skip = page;
+    console.log(quantityPages * skip - quantityPages);
+    const response = await prisma.armors.findMany({
+      take: quantityPages,
+      skip: page > 1 ? quantityPages * skip - quantityPages : 0,
     });
+    const hasNextPage = await prisma.armors.count({});
+    const actualArmor = quantityPages * skip - quantityPages;
+    console.log(hasNextPage - actualArmor);
+
+    return {
+      response,
+      hasNextPage: hasNextPage - actualArmor >= 20 ? true : false,
+    };
   }
 }

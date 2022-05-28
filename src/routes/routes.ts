@@ -17,12 +17,12 @@ router.get("/", (_, response) => {
 // armors
 router.get("/armors", ArmorsController.getALl);
 router.get("/armors/:id", ArmorsController.getOneArmor);
-//router.get("/armors/:page");
+router.get("/armorsPage", ArmorsController.getPerPage);
 
 // characters
 router.get("/characters", CharactersController.getALl);
 router.get("/characters/:id", CharactersController.getOneCharacter);
-// router.get("/characters/:page")
+// router.get("/characters/:page", CharactersController.)
 
 // monsters
 router.get("/monsters", MonstersController.getALl);

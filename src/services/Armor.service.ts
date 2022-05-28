@@ -13,4 +13,10 @@ export class ArmorService {
 
     return response;
   }
+
+  async getPerPage(page: string) {
+    const response = await this.armorService.getPagination(+page);
+
+    return response;
+  }
 }

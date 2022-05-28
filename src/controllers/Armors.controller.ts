@@ -4,6 +4,12 @@ import { ArmorService } from "../services/Armor.service";
 
 export class ArmorsController {
   static async getALl(request: Request, response: Response) {
+    const { page } = request.query;
+
+    if (page) {
+      return;
+    }
+
     const armorRepository = new ArmorsRepository();
     const armorService = new ArmorService(armorRepository);
 
@@ -29,6 +35,29 @@ export class ArmorsController {
     }
     try {
       const data = await armorService.getOneArmor(id);
+
+      return response.status(200).json(data);
+    } catch (error) {
+      return response.status(500).json({
+        message: "Internal server error",
+      });
+    }
+  }
+
+  static async getPerPage(request: Request, response: Response) {
+    const { page } = request.query;
+    console.log(page);
+    const armorRepository = new ArmorsRepository();
+    const armorService = new ArmorService(armorRepository);
+
+    if (!page) {
+      return response.status(400).json({
+        message: "Cannot page",
+      });
+    }
+
+    try {
+      const data = await armorService.getPerPage(`${page}`);
 
       return response.status(200).json(data);
     } catch (error) {

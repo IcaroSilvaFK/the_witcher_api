@@ -22,7 +22,7 @@ router.get("/armorsPage", ArmorsController.getPerPage);
 // characters
 router.get("/characters", CharactersController.getALl);
 router.get("/characters/:id", CharactersController.getOneCharacter);
-// router.get("/characters/:page", CharactersController.)
+router.get("/charactersPage", CharactersController.getPerPage);
 
 // monsters
 router.get("/monsters", MonstersController.getALl);

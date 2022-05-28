@@ -38,4 +38,24 @@ export class CharactersRepository {
     });
     return character;
   }
+  async getPagination(page: number) {
+    const charactersCount = await prisma.character.count();
+    const take = 20;
+    const pageSkip = page > 1 ? take * page - take : 0;
+    const validationSkip =
+      pageSkip > charactersCount ? take * (page - 1) - take : pageSkip;
+
+    const characters = await prisma.character.findMany({
+      take:
+        charactersCount - (take * page - take) >= 20
+          ? take
+          : charactersCount - (take * (pageSkip - 1) - take),
+      skip: validationSkip,
+    });
+
+    return {
+      data: characters,
+      hasNextPage: charactersCount - validationSkip > 20 ? true : false,
+    };
+  }
 }

@@ -14,4 +14,9 @@ export class CharacterService {
 
     return character;
   }
+  async getPerPage(page: string) {
+    const characters = await this.characterRepository.getPagination(+page);
+
+    return characters;
+  }
 }

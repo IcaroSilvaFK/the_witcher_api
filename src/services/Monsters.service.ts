@@ -13,4 +13,9 @@ export class MonstersService {
 
     return monster;
   }
+  async getPerPage(page: string) {
+    const monsters = await this.monstersReposioty.getPagination(+page);
+
+    return monsters;
+  }
 }

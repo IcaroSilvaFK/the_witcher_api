@@ -27,7 +27,7 @@ router.get("/charactersPage", CharactersController.getPerPage);
 // monsters
 router.get("/monsters", MonstersController.getALl);
 router.get("/monsters/:id", MonstersController.getOneMonster);
-//router.get("/monsters/:page")
+router.get("/charactersPage", MonstersController.getPerPage);
 
 //weapons
 router.get("/weapons", WeaponsController.getALl);

@@ -38,4 +38,24 @@ export class MonstersRepository {
 
     return monster;
   }
+  async getPagination(page: number) {
+    const monstersCount = await prisma.monster.count();
+    const take = 20;
+    const pageSkip = page > 1 ? take * page - take : 0;
+    const validationSkip =
+      pageSkip > monstersCount ? take * (page - 1) - take : pageSkip;
+
+    const monsters = await prisma.monster.findMany({
+      take:
+        monstersCount - (take * page - take) > 20
+          ? take
+          : monstersCount - (take * (pageSkip - 1) - take),
+      skip: validationSkip,
+    });
+
+    return {
+      data: monsters,
+      hasNextPage: monstersCount - validationSkip > 20 ? true : false,
+    };
+  }
 }

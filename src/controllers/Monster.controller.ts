@@ -39,4 +39,26 @@ export class MonstersController {
       });
     }
   }
+
+  static async getPerPage(request: Request, response: Response) {
+    const { page } = request.query;
+    const monstersReposioty = new MonstersRepository();
+    const monstersService = new MonstersService(monstersReposioty);
+
+    if (!page) {
+      return response.status(400).json({
+        message: "Incorrect params",
+      });
+    }
+
+    try {
+      const monsters = await monstersService.getPerPage(`${page}`);
+
+      return response.status(200).json(monsters);
+    } catch (error) {
+      return response.status(500).json({
+        message: "Internal server error",
+      });
+    }
+  }
 }

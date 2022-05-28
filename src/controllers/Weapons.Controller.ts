@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { WeaponsRepository } from "../repository/Wepons.repository";
+import { WeaponsRepository } from "../repository/Weapons.repository";
 import { WeaponsService } from "../services/Weapons.service";
 
 export class WeaponsController {
@@ -33,6 +33,27 @@ export class WeaponsController {
     } catch (error) {
       return response.status(500).json({
         message: "Internal server error",
+      });
+    }
+  }
+  static async getPerPage(request: Request, response: Response) {
+    const { page } = request.query;
+    const weaponsRepository = new WeaponsRepository();
+    const weaponsService = new WeaponsService(weaponsRepository);
+
+    if (!page) {
+      return response.status(400).json({
+        message: "Incorrect params",
+      });
+    }
+
+    try {
+      const monsters = await weaponsService.getPerPage(`${page}`);
+
+      return response.status(200).json(monsters);
+    } catch (error) {
+      return response.status(500).json({
+        message: "Internal server Error",
       });
     }
   }

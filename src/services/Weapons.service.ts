@@ -1,4 +1,4 @@
-import { WeaponsRepository } from "../repository/Wepons.repository";
+import { WeaponsRepository } from "../repository/Weapons.repository";
 
 export class WeaponsService {
   constructor(private readonly weaponsRepository: WeaponsRepository) {}
@@ -11,5 +11,11 @@ export class WeaponsService {
     const weapon = await this.weaponsRepository.getOneWeapon(id);
 
     return weapon;
+  }
+
+  async getPerPage(page: string) {
+    const weapons = await this.weaponsRepository.getPagination(+page);
+
+    return weapons;
   }
 }

@@ -32,6 +32,6 @@ router.get("/charactersPage", MonstersController.getPerPage);
 //weapons
 router.get("/weapons", WeaponsController.getALl);
 router.get("/weapons/:id", WeaponsController.getOneWeapon);
-// router.get("/monsters/:page")
+router.get("/charactersPage", WeaponsController.getPerPage);
 
 export { router };

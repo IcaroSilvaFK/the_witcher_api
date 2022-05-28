@@ -38,4 +38,25 @@ export class WeaponsRepository {
 
     return weapon;
   }
+
+  async getPagination(page: number) {
+    const weaponsCounter = await prisma.weapons.count();
+    const take = 20;
+    const pageSkip = page > 1 ? take * page - take : 0;
+    const validationSkip =
+      pageSkip > weaponsCounter ? take * (page - 1) - take : pageSkip;
+
+    const weapons = await prisma.weapons.findMany({
+      take:
+        weaponsCounter - (take * page - take) > 20
+          ? take
+          : weaponsCounter - (take * (pageSkip - 1) - take),
+      skip: validationSkip,
+    });
+
+    return {
+      data: weapons,
+      hasNextPage: weaponsCounter - validationSkip > 20 ? true : false,
+    };
+  }
 }

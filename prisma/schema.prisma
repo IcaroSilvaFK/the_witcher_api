@@ -16,7 +16,17 @@ model Armors {
   width Int
   height Int
   format String
+  armor_descriptions ArmorsDescriptions?
+
   @@map("armors")
+}
+
+model ArmorsDescriptions{
+  id String @id @default(uuid())
+  armor_id String
+  armor Armors @relation(fields: [armor_id], references: [id])
+
+  @@map("armors_descriptions")
 }
 
 model Character {
@@ -27,8 +37,17 @@ model Character {
   width Int
   height Int
   format String
+  character_descrption CharactersDescription?
+
   @@map("characters")
 }
+model CharactersDescription{
+  id String @id @default(uuid())
+  character Character @relation(fields: [chracter_id],references: [id] )
+  chracter_id String 
+  @@map("characters_descriptions")
+}
+
 model Monster {
   id String @id @default(uuid())
   imageUrl String @map("image_url")
@@ -37,7 +56,15 @@ model Monster {
   width Int
   height Int
   format String
+  monster_description MonsterDescription?
   @@map("monsters")
+}
+model MonsterDescription{
+  id String @id @default(uuid())
+  monster Monster @relation(fields: [monster_id], references: [id])
+  monster_id String
+
+  @@map("monsters_descriptions")
 }
 
 model Weapons {
@@ -48,5 +75,14 @@ model Weapons {
   width Int
   height Int
   format String
+  weapon_description WeaponsDescription?
   @@map("weapons")
+}
+
+model WeaponsDescription{
+  id String @id @default(uuid())
+  weapon Weapons @relation(fields: [weapon_id], references: [id])
+  weapon_id String
+
+  @@map("weapons_descriptions")
 }

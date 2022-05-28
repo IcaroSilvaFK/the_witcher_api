@@ -46,7 +46,6 @@ export class ArmorsController {
 
   static async getPerPage(request: Request, response: Response) {
     const { page } = request.query;
-    console.log(page);
     const armorRepository = new ArmorsRepository();
     const armorService = new ArmorService(armorRepository);
 

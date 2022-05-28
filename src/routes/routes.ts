@@ -11,6 +11,14 @@ router.get("/", (_, response) => {
   response.status(200).json({
     nick_name: "Whyy",
     author: "Icaro Vieira",
+    api_name: "The witcher`s",
+    get: ["/armors", "/characters", "/monsters", "/weapons"],
+    params: [
+      "/armorsPage?page=1",
+      "/charactersPage?page=1",
+      "/monstersPage?page=1",
+      "/weaponsPage?page=1",
+    ],
   });
 });
 
@@ -27,11 +35,11 @@ router.get("/charactersPage", CharactersController.getPerPage);
 // monsters
 router.get("/monsters", MonstersController.getALl);
 router.get("/monsters/:id", MonstersController.getOneMonster);
-router.get("/charactersPage", MonstersController.getPerPage);
+router.get("/monstersPage", MonstersController.getPerPage);
 
 //weapons
 router.get("/weapons", WeaponsController.getALl);
 router.get("/weapons/:id", WeaponsController.getOneWeapon);
-router.get("/charactersPage", WeaponsController.getPerPage);
+router.get("/weaponsPage", WeaponsController.getPerPage);
 
 export { router };

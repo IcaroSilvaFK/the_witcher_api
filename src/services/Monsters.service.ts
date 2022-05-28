@@ -5,7 +5,6 @@ export class MonstersService {
 
   async getAll() {
     const monsters = await this.monstersReposioty.getAll();
-    console.log(monsters);
     return monsters;
   }
   async getOneMonster(id: string) {

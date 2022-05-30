@@ -5,13 +5,12 @@ import { ArmorService } from "../services/Armor.service";
 export class ArmorsController {
   static async getALl(request: Request, response: Response) {
     const { page } = request.query;
+    const armorRepository = new ArmorsRepository();
+    const armorService = new ArmorService(armorRepository);
 
     if (page) {
       return;
     }
-
-    const armorRepository = new ArmorsRepository();
-    const armorService = new ArmorService(armorRepository);
 
     try {
       const data = await armorService.getAll();

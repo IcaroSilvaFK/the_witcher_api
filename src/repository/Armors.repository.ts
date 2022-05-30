@@ -60,6 +60,7 @@ export class ArmorsRepository {
             (quantityPerPages * (pageSkip - 1) - quantityPerPages),
       skip: validationSkip,
     });
+
     return {
       data: response,
       hasNextPage: armorsCount - validationSkip > 20 ? true : false,

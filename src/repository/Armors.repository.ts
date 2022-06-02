@@ -4,13 +4,9 @@ import { prisma } from "../prisma/prisma";
 
 export class ArmorsRepository {
   async getAll() {
-    const armorsExists = await prisma.armors.findMany({
-      orderBy: {
-        createdAt: "asc",
-      },
-    });
+    const armorsCount = await prisma.armors.count();
 
-    if (armorsExists.length <= 0) {
+    if (armorsCount <= 0) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
         .expression("folder:armor")
         .max_results(132)
@@ -27,8 +23,6 @@ export class ArmorsRepository {
           },
         });
       }
-    } else {
-      return armorsExists;
     }
     const armors = await prisma.armors.findMany();
 
@@ -44,7 +38,7 @@ export class ArmorsRepository {
     return armor;
   }
   async getPagination(page: number) {
-    const armorsCount = await prisma.armors.count({});
+    const armorsCount = await prisma.armors.count();
     const quantityPerPages = 20;
     const pageSkip = page > 1 ? quantityPerPages * page - quantityPerPages : 0;
     const validationSkip =

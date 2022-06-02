@@ -4,9 +4,9 @@ import { prisma } from "../prisma/prisma";
 
 export class MonstersRepository {
   async getAll() {
-    const monstersExists = await prisma.monster.findMany();
+    const monstersCount = await prisma.monster.count();
 
-    if (monstersExists.length <= 0) {
+    if (monstersCount <= 0) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
         .expression("folder:monsters")
         .max_results(72)
@@ -23,8 +23,6 @@ export class MonstersRepository {
           },
         });
       }
-    } else {
-      return monstersExists;
     }
     const monsters = await prisma.monster.findMany();
     return monsters;

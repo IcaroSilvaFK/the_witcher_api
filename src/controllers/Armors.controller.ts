@@ -4,21 +4,16 @@ import { ArmorService } from "../services/Armor.service";
 
 export class ArmorsController {
   static async getALl(request: Request, response: Response) {
-    const { page } = request.query;
     const armorRepository = new ArmorsRepository();
     const armorService = new ArmorService(armorRepository);
 
-    if (page) {
-      return;
-    }
-
     try {
       const data = await armorService.getAll();
-
       return response.status(200).json(data);
     } catch (error) {
       response.status(500).json({
         message: "Internal server error",
+        error,
       });
     }
   }

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { WeaponsRepository } from "../repository/Weapons.repository";
+import { WeaponsRepository } from "../repositories/Weapons.repository";
 import { WeaponsService } from "../services/Weapons.service";
 
 export class WeaponsController {

@@ -1,4 +1,4 @@
-import { MonstersRepository } from "../repository/Monsters.repository";
+import { MonstersRepository } from "../repositories/Monsters.repository";
 
 export class MonstersService {
   constructor(private readonly monstersReposioty: MonstersRepository) {}

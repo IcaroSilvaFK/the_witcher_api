@@ -1,4 +1,4 @@
-import { WeaponsRepository } from "../repository/Weapons.repository";
+import { WeaponsRepository } from "../repositories/Weapons.repository";
 
 export class WeaponsService {
   constructor(private readonly weaponsRepository: WeaponsRepository) {}

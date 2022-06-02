@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { MonstersRepository } from "../repository/Monsters.repository";
+import { MonstersRepository } from "../repositories/Monsters.repository";
 import { MonstersService } from "../services/Monsters.service";
 
 export class MonstersController {

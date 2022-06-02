@@ -6,7 +6,7 @@ export class MonstersRepository {
   async getAll() {
     const monstersCount = await prisma.monster.count();
 
-    if (monstersCount <= 0) {
+    if (!monstersCount) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
         .expression("folder:monsters")
         .max_results(72)

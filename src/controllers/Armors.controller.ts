@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { ArmorsRepository } from "../repository/Armors.repository";
+import { json } from "stream/consumers";
+import { AppError } from "../errors/App.error";
+import { ArmorsRepository } from "../repositories/Armors.repository";
 import { ArmorService } from "../services/Armor.service";
 
 export class ArmorsController {
@@ -7,15 +9,8 @@ export class ArmorsController {
     const armorRepository = new ArmorsRepository();
     const armorService = new ArmorService(armorRepository);
 
-    try {
-      const data = await armorService.getAll();
-      return response.status(200).json(data);
-    } catch (error) {
-      response.status(500).json({
-        message: "Internal server error",
-        error,
-      });
-    }
+    const data = await armorService.getAll();
+    return response.status(200).json(data);
   }
   static async getOneArmor(request: Request, response: Response) {
     const { id } = request.params;
@@ -44,19 +39,11 @@ export class ArmorsController {
     const armorService = new ArmorService(armorRepository);
 
     if (!page) {
-      return response.status(400).json({
-        message: "Cannot page",
-      });
+      throw new AppError("Page is requerid in query", 400);
     }
 
-    try {
-      const data = await armorService.getPerPage(`${page}`);
+    const data = await armorService.getPerPage(`${page}`);
 
-      return response.status(200).json(data);
-    } catch (error) {
-      return response.status(500).json({
-        message: "Internal server error",
-      });
-    }
+    return response.status(200).json(data);
   }
 }

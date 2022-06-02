@@ -6,7 +6,7 @@ export class ArmorsRepository {
   async getAll() {
     const armorsCount = await prisma.armors.count();
 
-    if (armorsCount <= 0) {
+    if (!armorsCount) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
         .expression("folder:armor")
         .max_results(132)

@@ -5,8 +5,8 @@ import { prisma } from "../prisma/prisma";
 export class CharactersRepository {
   async getAll() {
     const charactersCount = await prisma.character.count();
-    console.log(charactersCount);
-    if (charactersCount <= 0) {
+
+    if (!charactersCount) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
         .expression("folder:character")
         .max_results(50)

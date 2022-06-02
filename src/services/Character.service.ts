@@ -1,4 +1,4 @@
-import { CharactersRepository } from "../repository/Characters.repository";
+import { CharactersRepository } from "../repositories/Characters.repository";
 
 export class CharacterService {
   constructor(private readonly characterRepository: CharactersRepository) {}

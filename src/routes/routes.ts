@@ -1,45 +1,36 @@
 import { Router } from "express";
 
-import { ArmorsController } from "../controllers/Armors.controller";
-import { CharactersController } from "../controllers/Characters.controller";
-import { MonstersController } from "../controllers/Monster.controller";
-import { WeaponsController } from "../controllers/Weapons.Controller";
+import { armorsProvider } from "../providers/Armors.provider";
+import { charactersProvider } from "../providers/Characters.provider";
+import { monstersProvider } from "../providers/Monsters.provider";
+import { weaponsProvider } from "../providers/Weapons.provider";
 
 const router = Router();
 
 router.get("/", (_, response) => {
   response.status(200).json({
-    nick_name: "Whyy",
+    nickname: "Whyy",
     author: "Icaro Vieira",
     api_name: "The witcher`s",
     get: ["/armors", "/characters", "/monsters", "/weapons"],
-    params: [
-      "/armorsPage?page=1",
-      "/charactersPage?page=1",
-      "/monstersPage?page=1",
-      "/weaponsPage?page=1",
-    ],
+    prams: ["?page=number"],
   });
 });
 
 // armors
-router.get("/armors", ArmorsController.getALl);
-router.get("/armors/:id", ArmorsController.getOneArmor);
-router.get("/armorsPage", ArmorsController.getPerPage);
+router.get("/armors", armorsProvider.getALl);
+router.get("/armors/:id", armorsProvider.getOneArmor);
 
 // characters
-router.get("/characters", CharactersController.getALl);
-router.get("/characters/:id", CharactersController.getOneCharacter);
-router.get("/charactersPage", CharactersController.getPerPage);
+router.get("/characters", charactersProvider.getALl);
+router.get("/characters/:id", charactersProvider.getOneCharacter);
 
 // monsters
-router.get("/monsters", MonstersController.getALl);
-router.get("/monsters/:id", MonstersController.getOneMonster);
-router.get("/monstersPage", MonstersController.getPerPage);
+router.get("/monsters", monstersProvider.getALl);
+router.get("/monsters/:id", monstersProvider.getOneMonster);
 
 //weapons
-router.get("/weapons", WeaponsController.getALl);
-router.get("/weapons/:id", WeaponsController.getOneWeapon);
-router.get("/weaponsPage", WeaponsController.getPerPage);
+router.get("/weapons", weaponsProvider.getALl);
+router.get("/weapons/:id", weaponsProvider.getOneWeapon);
 
 export { router };

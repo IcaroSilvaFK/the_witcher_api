@@ -1,11 +1,12 @@
+import { Prisma } from "@prisma/client";
 import { clientCloudinary } from "../configs/cloudnary";
 import { ICloudinaryProps } from "../interfaces/ICloudnary.Interface";
 import { prisma } from "../prisma/prisma";
 
 export class MonstersRepository {
-  async getAll() {
+  async getAll(page?: number) {
     const monstersCount = await prisma.monster.count();
-
+    const limit = 30;
     if (!monstersCount) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
         .expression("folder:monsters")
@@ -24,8 +25,19 @@ export class MonstersRepository {
         });
       }
     }
-    const monsters = await prisma.monster.findMany();
-    return monsters;
+    const monsters = await prisma.monster.findMany({
+      skip: page ? (page - 1) * limit : 0,
+      take: page ? limit : monstersCount,
+    });
+    const has_next_page =
+      Math.abs(limit + (page! - 1) * limit - monstersCount) < limit
+        ? false
+        : true;
+
+    return {
+      monsters,
+      has_next_page: page ? has_next_page : undefined,
+    };
   }
   async getMonster(id: string) {
     const monster = await prisma.monster.findFirst({
@@ -35,25 +47,5 @@ export class MonstersRepository {
     });
 
     return monster;
-  }
-  async getPagination(page: number) {
-    const monstersCount = await prisma.monster.count();
-    const take = 20;
-    const pageSkip = page > 1 ? take * page - take : 0;
-    const validationSkip =
-      pageSkip > monstersCount ? take * (page - 1) - take : pageSkip;
-
-    const monsters = await prisma.monster.findMany({
-      take:
-        monstersCount - (take * page - take) > 20
-          ? take
-          : monstersCount - (take * (pageSkip - 1) - take),
-      skip: validationSkip,
-    });
-
-    return {
-      data: monsters,
-      hasNextPage: monstersCount - validationSkip > 20 ? true : false,
-    };
   }
 }

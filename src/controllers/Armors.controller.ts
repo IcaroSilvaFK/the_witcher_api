@@ -1,24 +1,38 @@
+import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
-import { json } from "stream/consumers";
-import { AppError } from "../errors/App.error";
+
 import { ArmorsRepository } from "../repositories/Armors.repository";
 import { ArmorService } from "../services/Armor.service";
 
 export class ArmorsController {
-  static async getALl(request: Request, response: Response) {
+  async getALl(request: Request, response: Response) {
+    const { page } = request.query;
     const armorRepository = new ArmorsRepository();
     const armorService = new ArmorService(armorRepository);
 
-    const data = await armorService.getAll();
-    return response.status(200).json(data);
+    try {
+      const data = await armorService.getAll(+page!);
+      return response.status(200).json(data);
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        return response.status(500).json({
+          message: error.message,
+          timestamp: new Date().toISOString(),
+        });
+      }
+      return response.status(500).json({
+        message: "Internal server error",
+        timestamp: new Date().toISOString(),
+      });
+    }
   }
-  static async getOneArmor(request: Request, response: Response) {
+  async getOneArmor(request: Request, response: Response) {
     const { id } = request.params;
     const armorRepository = new ArmorsRepository();
     const armorService = new ArmorService(armorRepository);
 
     if (!id) {
-      return response.status(404).json({
+      return response.status(400).json({
         message: "ID param is required",
       });
     }
@@ -27,23 +41,17 @@ export class ArmorsController {
 
       return response.status(200).json(data);
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        return response.status(500).json({
+          message: error.message,
+          timestamp: new Date().toISOString(),
+        });
+      }
       return response.status(500).json({
         message: "Internal server error",
+        timestamp: new Date().toISOString(),
       });
     }
   }
-
-  static async getPerPage(request: Request, response: Response) {
-    const { page } = request.query;
-    const armorRepository = new ArmorsRepository();
-    const armorService = new ArmorService(armorRepository);
-
-    if (!page) {
-      throw new AppError("Page is requerid in query", 400);
-    }
-
-    const data = await armorService.getPerPage(`${page}`);
-
-    return response.status(200).json(data);
-  }
 }
+//Bounty_hunter_gambeson_dgy5ql"

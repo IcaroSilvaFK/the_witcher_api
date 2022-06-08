@@ -3,9 +3,8 @@ import { CharactersRepository } from "../repositories/Characters.repository";
 export class CharacterService {
   constructor(private readonly characterRepository: CharactersRepository) {}
 
-  async getAll() {
-    const characters = await this.characterRepository.getAll();
-
+  async getAll(page = 1) {
+    const characters = await this.characterRepository.getAll(page);
     return characters;
   }
 
@@ -13,10 +12,5 @@ export class CharacterService {
     const character = await this.characterRepository.getCharacter(id);
 
     return character;
-  }
-  async getPerPage(page: string) {
-    const characters = await this.characterRepository.getPagination(+page);
-
-    return characters;
   }
 }

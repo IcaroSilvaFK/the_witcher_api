@@ -3,12 +3,13 @@ import { WeaponsRepository } from "../repositories/Weapons.repository";
 import { WeaponsService } from "../services/Weapons.service";
 
 export class WeaponsController {
-  static async getALl(request: Request, response: Response) {
-    const weaponsRepository = new WeaponsRepository();
-    const weaponsService = new WeaponsService(weaponsRepository);
+  async getALl(request: Request, response: Response) {
+    const { page } = request.query;
+    const weaponsReposiotry = new WeaponsRepository();
+    const weaponsService = new WeaponsService(weaponsReposiotry);
 
     try {
-      const weapons = await weaponsService.getAll();
+      const weapons = await weaponsService.getAll(+page!);
       return response.status(200).json(weapons);
     } catch (error) {
       return response.status(500).json({
@@ -16,10 +17,10 @@ export class WeaponsController {
       });
     }
   }
-  static async getOneWeapon(request: Request, response: Response) {
+  async getOneWeapon(request: Request, response: Response) {
     const { id } = request.params;
-    const weaponsRepository = new WeaponsRepository();
-    const weaponsService = new WeaponsService(weaponsRepository);
+    const weaponsReposiotry = new WeaponsRepository();
+    const weaponsService = new WeaponsService(weaponsReposiotry);
 
     if (!id) {
       return response.status(400).json({
@@ -33,27 +34,6 @@ export class WeaponsController {
     } catch (error) {
       return response.status(500).json({
         message: "Internal server error",
-      });
-    }
-  }
-  static async getPerPage(request: Request, response: Response) {
-    const { page } = request.query;
-    const weaponsRepository = new WeaponsRepository();
-    const weaponsService = new WeaponsService(weaponsRepository);
-
-    if (!page) {
-      return response.status(400).json({
-        message: "Incorrect params",
-      });
-    }
-
-    try {
-      const monsters = await weaponsService.getPerPage(`${page}`);
-
-      return response.status(200).json(monsters);
-    } catch (error) {
-      return response.status(500).json({
-        message: "Internal server Error",
       });
     }
   }

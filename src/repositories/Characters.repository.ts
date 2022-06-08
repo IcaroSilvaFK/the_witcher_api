@@ -3,9 +3,9 @@ import { ICloudinaryProps } from "../interfaces/ICloudnary.Interface";
 import { prisma } from "../prisma/prisma";
 
 export class CharactersRepository {
-  async getAll() {
+  async getAll(page?: number) {
     const charactersCount = await prisma.character.count();
-
+    const limit = 30;
     if (!charactersCount) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
         .expression("folder:character")
@@ -24,8 +24,21 @@ export class CharactersRepository {
         });
       }
     }
-    const characters = await prisma.character.findMany();
-    return characters;
+
+    const characters = await prisma.character.findMany({
+      skip: page ? (page - 1) * limit : 0,
+      take: page ? limit : charactersCount,
+    });
+
+    const has_next_page =
+      Math.abs(limit + (page! - 1) * limit - charactersCount) < limit
+        ? false
+        : true;
+
+    return {
+      characters,
+      has_next_page: page ? has_next_page : undefined,
+    };
   }
 
   async getCharacter(id: string) {
@@ -35,25 +48,5 @@ export class CharactersRepository {
       },
     });
     return character;
-  }
-  async getPagination(page: number) {
-    const charactersCount = await prisma.character.count();
-    const take = 20;
-    const pageSkip = page > 1 ? take * page - take : 0;
-    const validationSkip =
-      pageSkip > charactersCount ? take * (page - 1) - take : pageSkip;
-
-    const characters = await prisma.character.findMany({
-      take:
-        charactersCount - (take * page - take) >= 20
-          ? take
-          : charactersCount - (take * (pageSkip - 1) - take),
-      skip: validationSkip,
-    });
-
-    return {
-      data: characters,
-      hasNextPage: charactersCount - validationSkip > 20 ? true : false,
-    };
   }
 }

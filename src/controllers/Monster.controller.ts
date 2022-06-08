@@ -3,12 +3,13 @@ import { MonstersRepository } from "../repositories/Monsters.repository";
 import { MonstersService } from "../services/Monsters.service";
 
 export class MonstersController {
-  static async getALl(request: Request, response: Response) {
-    const monstersReposioty = new MonstersRepository();
-    const monstersService = new MonstersService(monstersReposioty);
+  async getALl(request: Request, response: Response) {
+    const { page } = request.query;
+    const monstersRepository = new MonstersRepository();
+    const monstersService = new MonstersService(monstersRepository);
 
     try {
-      const monster = await monstersService.getAll();
+      const monster = await monstersService.getAll(+page!);
 
       return response.status(200).json(monster);
     } catch (error) {
@@ -18,10 +19,10 @@ export class MonstersController {
     }
   }
 
-  static async getOneMonster(request: Request, response: Response) {
+  async getOneMonster(request: Request, response: Response) {
     const { id } = request.params;
-    const monstersReposioty = new MonstersRepository();
-    const monstersService = new MonstersService(monstersReposioty);
+    const monstersRepository = new MonstersRepository();
+    const monstersService = new MonstersService(monstersRepository);
 
     if (!id) {
       return response.status(400).json({
@@ -33,28 +34,6 @@ export class MonstersController {
       const monster = await monstersService.getOneMonster(id);
 
       return response.status(200).json(monster);
-    } catch (error) {
-      return response.status(500).json({
-        message: "Internal server error",
-      });
-    }
-  }
-
-  static async getPerPage(request: Request, response: Response) {
-    const { page } = request.query;
-    const monstersReposioty = new MonstersRepository();
-    const monstersService = new MonstersService(monstersReposioty);
-
-    if (!page) {
-      return response.status(400).json({
-        message: "Incorrect params",
-      });
-    }
-
-    try {
-      const monsters = await monstersService.getPerPage(`${page}`);
-
-      return response.status(200).json(monsters);
     } catch (error) {
       return response.status(500).json({
         message: "Internal server error",

@@ -3,8 +3,9 @@ import { ICloudinaryProps } from "../interfaces/ICloudnary.Interface";
 import { prisma } from "../prisma/prisma";
 
 export class WeaponsRepository {
-  async getAll() {
+  async getAll(page?: number) {
     const weaponsCount = await prisma.weapons.count();
+    const limit = 30;
 
     if (!weaponsCount) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
@@ -23,9 +24,18 @@ export class WeaponsRepository {
         });
       }
     }
-    const weapons = await prisma.weapons.findMany();
-
-    return weapons;
+    const weapons = await prisma.weapons.findMany({
+      skip: page ? (page - 1) * limit : 0,
+      take: page ? limit : weaponsCount,
+    });
+    const has_next_page =
+      Math.abs(limit + (page! - 1) * limit - weaponsCount) < limit
+        ? false
+        : true;
+    return {
+      weapons,
+      has_next_page: page ? has_next_page : undefined,
+    };
   }
   async getOneWeapon(id: string) {
     const weapon = await prisma.weapons.findFirst({
@@ -35,26 +45,5 @@ export class WeaponsRepository {
     });
 
     return weapon;
-  }
-
-  async getPagination(page: number) {
-    const weaponsCounter = await prisma.weapons.count();
-    const take = 20;
-    const pageSkip = page > 1 ? take * page - take : 0;
-    const validationSkip =
-      pageSkip > weaponsCounter ? take * (page - 1) - take : pageSkip;
-
-    const weapons = await prisma.weapons.findMany({
-      take:
-        weaponsCounter - (take * page - take) > 20
-          ? take
-          : weaponsCounter - (take * (pageSkip - 1) - take),
-      skip: validationSkip,
-    });
-
-    return {
-      data: weapons,
-      hasNextPage: weaponsCounter - validationSkip > 20 ? true : false,
-    };
   }
 }

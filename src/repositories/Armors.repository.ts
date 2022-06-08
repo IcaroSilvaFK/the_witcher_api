@@ -3,9 +3,9 @@ import { ICloudinaryProps } from "../interfaces/ICloudnary.Interface";
 import { prisma } from "../prisma/prisma";
 
 export class ArmorsRepository {
-  async getAll() {
+  async getAll(page?: number) {
     const armorsCount = await prisma.armors.count();
-
+    const limit = 30;
     if (!armorsCount) {
       const { resources }: ICloudinaryProps = await clientCloudinary.search
         .expression("folder:armor")
@@ -24,9 +24,18 @@ export class ArmorsRepository {
         });
       }
     }
-    const armors = await prisma.armors.findMany();
-
-    return armors;
+    const armors = await prisma.armors.findMany({
+      skip: page ? (page - 1) * limit : 0,
+      take: page ? limit : armorsCount,
+    });
+    const has_next_page =
+      Math.abs(limit + (page! - 1) * limit - armorsCount) < limit
+        ? false
+        : true;
+    return {
+      armors,
+      has_next_page: page ? has_next_page : undefined,
+    };
   }
 
   async getOneArmor(id: string) {
@@ -36,28 +45,5 @@ export class ArmorsRepository {
       },
     });
     return armor;
-  }
-  async getPagination(page: number) {
-    const armorsCount = await prisma.armors.count();
-    const quantityPerPages = 20;
-    const pageSkip = page > 1 ? quantityPerPages * page - quantityPerPages : 0;
-    const validationSkip =
-      pageSkip > armorsCount
-        ? quantityPerPages * (page - 1) - quantityPerPages
-        : pageSkip;
-
-    const response = await prisma.armors.findMany({
-      take:
-        armorsCount - (quantityPerPages * page - quantityPerPages) >= 20
-          ? quantityPerPages
-          : armorsCount -
-            (quantityPerPages * (pageSkip - 1) - quantityPerPages),
-      skip: validationSkip,
-    });
-
-    return {
-      data: response,
-      hasNextPage: armorsCount - validationSkip > 20 ? true : false,
-    };
   }
 }

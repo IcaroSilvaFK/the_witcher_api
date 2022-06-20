@@ -1,5 +1,13 @@
 import { CharactersController } from "../controllers/Characters.controller";
+import { CharactersRepository } from "../repositories/Characters.repository";
+import { CharacterService } from "../services/Characters.service";
 
-const charactersProvider = new CharactersController();
+function charactersProvider() {
+  const charactersRepository = new CharactersRepository();
+  const characterService = new CharacterService(charactersRepository);
+  const charactersController = new CharactersController(characterService);
+
+  return charactersController;
+}
 
 export { charactersProvider };

@@ -18,19 +18,35 @@ router.get("/", (_, response) => {
 });
 
 // armors
-router.get("/armors", armorsProvider.getALl);
-router.get("/armors/:id", armorsProvider.getOneArmor);
+router.get("/armors", (request, response) => {
+  armorsProvider().getALl(request, response);
+});
+router.get("/armors/:id", (request, response) => {
+  armorsProvider().getOneArmor(request, response);
+});
 
 // characters
-router.get("/characters", charactersProvider.getALl);
-router.get("/characters/:id", charactersProvider.getOneCharacter);
+router.get("/characters", (request, response) => {
+  charactersProvider().getALl(request, response);
+});
+router.get("/characters/:id", (request, response) => {
+  charactersProvider().getOneCharacter(request, response);
+});
 
 // monsters
-router.get("/monsters", monstersProvider.getALl);
-router.get("/monsters/:id", monstersProvider.getOneMonster);
+router.get("/monsters", (request, response) => {
+  monstersProvider().getALl(request, response);
+});
+router.get("/monsters/:id", (request, response) => {
+  monstersProvider().getOneMonster(request, response);
+});
 
 //weapons
-router.get("/weapons", weaponsProvider.getALl);
-router.get("/weapons/:id", weaponsProvider.getOneWeapon);
+router.get("/weapons", (request, response) => {
+  weaponsProvider().getALl(request, response);
+});
+router.get("/weapons/:id", (request, response) => {
+  weaponsProvider().getOneWeapon(request, response);
+});
 
 export { router };

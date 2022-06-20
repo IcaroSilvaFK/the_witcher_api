@@ -1,5 +1,13 @@
 import { MonstersController } from "../controllers/Monster.controller";
+import { MonstersRepository } from "../repositories/Monsters.repository";
+import { MonstersService } from "../services/Monsters.service";
 
-const monstersProvider = new MonstersController();
+function monstersProvider() {
+  const mosnterRespository = new MonstersRepository();
+  const monsterService = new MonstersService(mosnterRespository);
+  const monstersController = new MonstersController(monsterService);
+
+  return monstersController;
+}
 
 export { monstersProvider };

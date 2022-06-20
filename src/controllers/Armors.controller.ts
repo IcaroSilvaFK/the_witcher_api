@@ -1,17 +1,16 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 
-import { ArmorsRepository } from "../repositories/Armors.repository";
 import { ArmorService } from "../services/Armor.service";
 
 export class ArmorsController {
+  constructor(private readonly armorService: ArmorService) {}
+
   async getALl(request: Request, response: Response) {
     const { page } = request.query;
-    const armorRepository = new ArmorsRepository();
-    const armorService = new ArmorService(armorRepository);
 
     try {
-      const data = await armorService.getAll(+page!);
+      const data = await this.armorService.getAll(+page!);
       return response.status(200).json(data);
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
@@ -28,8 +27,6 @@ export class ArmorsController {
   }
   async getOneArmor(request: Request, response: Response) {
     const { id } = request.params;
-    const armorRepository = new ArmorsRepository();
-    const armorService = new ArmorService(armorRepository);
 
     if (!id) {
       return response.status(400).json({
@@ -37,7 +34,7 @@ export class ArmorsController {
       });
     }
     try {
-      const data = await armorService.getOneArmor(id);
+      const data = await this.armorService.getOneArmor(id);
 
       return response.status(200).json(data);
     } catch (error) {
@@ -54,4 +51,3 @@ export class ArmorsController {
     }
   }
 }
-//Bounty_hunter_gambeson_dgy5ql"

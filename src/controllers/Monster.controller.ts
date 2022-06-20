@@ -3,13 +3,13 @@ import { MonstersRepository } from "../repositories/Monsters.repository";
 import { MonstersService } from "../services/Monsters.service";
 
 export class MonstersController {
+  constructor(private readonly monstersService: MonstersService) {}
+
   async getALl(request: Request, response: Response) {
     const { page } = request.query;
-    const monstersRepository = new MonstersRepository();
-    const monstersService = new MonstersService(monstersRepository);
 
     try {
-      const monster = await monstersService.getAll(+page!);
+      const monster = await this.monstersService.getAll(+page!);
 
       return response.status(200).json(monster);
     } catch (error) {
@@ -21,8 +21,6 @@ export class MonstersController {
 
   async getOneMonster(request: Request, response: Response) {
     const { id } = request.params;
-    const monstersRepository = new MonstersRepository();
-    const monstersService = new MonstersService(monstersRepository);
 
     if (!id) {
       return response.status(400).json({
@@ -31,7 +29,7 @@ export class MonstersController {
     }
 
     try {
-      const monster = await monstersService.getOneMonster(id);
+      const monster = await this.monstersService.getOneMonster(id);
 
       return response.status(200).json(monster);
     } catch (error) {

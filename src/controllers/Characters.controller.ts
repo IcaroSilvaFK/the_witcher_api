@@ -1,15 +1,14 @@
 import { Request, Response } from "express";
 import { CharacterService } from "../services/Characters.service";
-import { CharactersRepository } from "../repositories/Characters.repository";
 
 export class CharactersController {
+  constructor(private readonly characterService: CharacterService) {}
+
   async getALl(request: Request, response: Response) {
     const { page } = request.query;
-    const charactersRepository = new CharactersRepository();
-    const charactersService = new CharacterService(charactersRepository);
 
     try {
-      const characters = await charactersService.getAll(+page!);
+      const characters = await this.characterService.getAll(+page!);
 
       return response.status(200).json(characters);
     } catch (error) {
@@ -21,8 +20,6 @@ export class CharactersController {
 
   async getOneCharacter(request: Request, response: Response) {
     const { id } = request.params;
-    const charactersRepository = new CharactersRepository();
-    const charactersService = new CharacterService(charactersRepository);
 
     if (!id) {
       return response.status(4000).json({
@@ -30,7 +27,7 @@ export class CharactersController {
       });
     }
     try {
-      const character = await charactersService.getOneCharacter(id);
+      const character = await this.characterService.getOneCharacter(id);
 
       return response.status(200).json(character);
     } catch (error) {

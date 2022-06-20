@@ -3,13 +3,13 @@ import { WeaponsRepository } from "../repositories/Weapons.repository";
 import { WeaponsService } from "../services/Weapons.service";
 
 export class WeaponsController {
+  constructor(private readonly weaponsService: WeaponsService) {}
+
   async getALl(request: Request, response: Response) {
     const { page } = request.query;
-    const weaponsReposiotry = new WeaponsRepository();
-    const weaponsService = new WeaponsService(weaponsReposiotry);
 
     try {
-      const weapons = await weaponsService.getAll(+page!);
+      const weapons = await this.weaponsService.getAll(+page!);
       return response.status(200).json(weapons);
     } catch (error) {
       return response.status(500).json({
@@ -19,8 +19,6 @@ export class WeaponsController {
   }
   async getOneWeapon(request: Request, response: Response) {
     const { id } = request.params;
-    const weaponsReposiotry = new WeaponsRepository();
-    const weaponsService = new WeaponsService(weaponsReposiotry);
 
     if (!id) {
       return response.status(400).json({
@@ -28,7 +26,7 @@ export class WeaponsController {
       });
     }
     try {
-      const weapon = await weaponsService.getOneWeapon(id);
+      const weapon = await this.weaponsService.getOneWeapon(id);
 
       return response.status(200).json(weapon);
     } catch (error) {

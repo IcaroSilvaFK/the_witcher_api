@@ -14,7 +14,7 @@ router.get("/", (_, response) => {
     version: "1.0.0",
     api_name: "The witcher`s",
     get: ["/armors", "/characters", "/monsters", "/weapons"],
-    prams: ["?page=number"],
+    queryParams: ["?page=number"],
   });
 });
 

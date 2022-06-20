@@ -1,8 +1,6 @@
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
-// import { ErrorMiddleware } from "./middlewares/error.middleware";
-// import { NotFoundRoute } from "./routes/notfound.route";
 
 import { router } from "./routes/routes";
 
@@ -12,8 +10,6 @@ const port = 8080;
 app.use(express.json());
 app.use(cors());
 app.use(router);
-// app.use(ErrorMiddleware);
-// app.use(NotFoundRoute);
 
 app.listen(process.env.PORT || port, () => {
   console.log(

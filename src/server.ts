@@ -15,7 +15,7 @@ app.use(router);
 // app.use(ErrorMiddleware);
 // app.use(NotFoundRoute);
 
-app.listen(port, () => {
+app.listen(process.env.PORT || port, () => {
   console.log(
     `server running in port http://localhost:${process.env.PORT || port}`
   );

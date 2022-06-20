@@ -11,6 +11,7 @@ router.get("/", (_, response) => {
   response.status(200).json({
     nickname: "Whyy",
     author: "Icaro Vieira",
+    version: "1.0.0",
     api_name: "The witcher`s",
     get: ["/armors", "/characters", "/monsters", "/weapons"],
     prams: ["?page=number"],
